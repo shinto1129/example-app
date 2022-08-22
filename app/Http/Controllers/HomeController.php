@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Register;
+use App\Models\Item;
+use App\Models\Room;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('welcome');
+    }
+
+    public function home()
+    {
+        $user = Auth::user();
+        return view('home', compact('user'));
+    }
+
+    public function calendar()
+    {
+        $user = Auth::user();
+        $register = Register::where('user_id', $user['id'])->get();
+        $items = Item::get();
+        $rooms = Room::get();
+        return view('calendar', compact('user', 'items', 'register', 'rooms'));
+
+
     }
 }
