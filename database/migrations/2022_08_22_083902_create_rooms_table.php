@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateToolsTable extends Migration
+class CreateRoomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateToolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tools', function (Blueprint $table) {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->integer('register_id')->comment('登録ID');
-            $table->integer('item_id')->comment('アイテムID');
+            $table->string('name')->comment('教室名');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateToolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tools');
+        Schema::dropIfExists('rooms');
     }
 }
