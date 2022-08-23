@@ -34,16 +34,16 @@ class HomeController extends Controller
     public function home()
     {
         $user = Auth::user();
-        return view('home', compact('user'));
+        return view('user.home', compact('user'));
     }
 
     public function calendar()
     {
         $user = Auth::user();
-        $register = Register::where('user_id', $user['id'])->get();
+        $register = Register::where('user_id', $user['id'])->where('flg', '0')->get();
         $items = Item::get();
         $rooms = Room::get();
-        return view('calendar', compact('user', 'items', 'register', 'rooms'));
+        return view('user.calendar', compact('user', 'items', 'register', 'rooms'));
 
 
     }

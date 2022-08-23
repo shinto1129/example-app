@@ -51,9 +51,60 @@ $(function(){
         }
       })
 
+    $('#testModal1').on('show.bs.modal', function (event) {
+        //モーダルを開いたボタンを取得
+        var button = $(event.relatedTarget);
+        //data-periodの値取得
+        var periodVal = button.data('period');
+        var weekVal = button.data('week');
+
+        //モーダルを取得
+        var modal = $(this);
+        console.log(periodVal);
+        console.log(weekVal);
 
 
-      $('#testModal').on('show.bs.modal', function (event) {
+
+        var select1 = document.getElementById("period-select");
+        var select2 = document.getElementById("week-select");
+
+        select1.options[periodVal-1].selected = true;
+        select2.options[weekVal-1].selected = true;
+
+
+
+        //受け取った値をspanタグのとこに表示
+        modal.find('.modal-header span#morau').text(periodVal+'の');
+    });
+
+    $('#testModal3').on('show.bs.modal', function (event) {
+        //モーダルを開いたボタンを取得
+        var button = $(event.relatedTarget);
+        //data-periodの値取得
+        var periodVal = button.data('period');
+        var weekVal = button.data('week');
+
+        //モーダルを取得
+        var modal = $(this);
+        console.log(periodVal);
+        console.log(weekVal);
+
+
+
+        var select1 = document.getElementById("period-select");
+        var select2 = document.getElementById("week-select");
+
+        select1.options[periodVal-1].selected = true;
+        select2.options[weekVal-1].selected = true;
+
+
+
+        //受け取った値をspanタグのとこに表示
+        modal.find('.modal-header span#morau').text(periodVal+'の');
+    });
+
+    /*
+    $('#testModal').on('show.bs.modal', function (event) {
         //モーダルを開いたボタンを取得
         var button = $(event.relatedTarget);
         //data-periodの値取得
@@ -104,30 +155,5 @@ $(function(){
         //受け取った値をspanタグのとこに表示
         modal.find('.modal-header span#morau').text(periodVal+'の');
     });
-
-    $('#testModal1').on('show.bs.modal', function (event) {
-        //モーダルを開いたボタンを取得
-        var button = $(event.relatedTarget);
-        //data-periodの値取得
-        var periodVal = button.data('period');
-        var weekVal = button.data('week');
-
-        //モーダルを取得
-        var modal = $(this);
-        console.log(periodVal);
-        console.log(weekVal);
-
-
-
-        var select1 = document.getElementById("period-select");
-        var select2 = document.getElementById("week-select");
-
-        select1.options[periodVal-1].selected = true;
-        select2.options[weekVal-1].selected = true;
-
-
-
-        //受け取った値をspanタグのとこに表示
-        modal.find('.modal-header span#morau').text(periodVal+'の');
-    });
+    */
 });
