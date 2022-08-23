@@ -6,6 +6,8 @@
 }
 .mt{
     margin-top: 10px;
+    width: 90%;
+    margin: 0 auto;
 }
 #btn1{
     border: none;
@@ -21,7 +23,7 @@
     margin: 20px 0;
 
 }
-.red{
+.red, .red h3{
     color: red;
 }
 .week-wrapper{
@@ -78,4 +80,17 @@
 }
 a{
     text-decoration: none;
+}
+
+.feled{
+    background-color: yellow;
+}
+.feled a{
+    color: red;
+}
+.feled a:hover, .red h3:hover{
+    color: blue;
+}
+.feled #select:hover{
+    color: blue;
 }

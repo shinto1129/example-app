@@ -6,10 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\Register;
 use App\Models\Item;
 use App\Models\Tool;
+use Carbon\Carbon;
 
 
 class RoomRegisterController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * 教室登録
      */
@@ -18,6 +24,19 @@ class RoomRegisterController extends Controller
         $user_id = \Auth::user()->id;
         $data = $request;
         $count = Item::get()->count();
+        $register = Register::get();
+
+        $check = 0; //重複チェックフラグ
+
+         //重複チェック
+        //  dd($register);
+         foreach($register as $r){
+            if($r->week == $data->week && $r->period == $data->period && $r->room == $data->room){
+                $check = 1;
+                break;
+            }
+        }
+        // dd($check);
         \DB::beginTransaction();
         try{
             $id = Register::insertGetId([
@@ -25,7 +44,10 @@ class RoomRegisterController extends Controller
                 'week' => $data->week,
                 'period' => $data->period,
                 'room' => $data->room,
+                'created_at' => Carbon::now(),
+                'check' => $check,
             ]);
+
 
             for($i = 1; $i <= $count; $i++){
                 if(!empty($data['item'.$i])){
@@ -40,7 +62,13 @@ class RoomRegisterController extends Controller
         catch(\Exception $e){
             \DB::rollback();
         }
-        return redirect()->route('calendar')->with('status', '登録しました');
+        if($r->check === 0){
+            Register::where('id', $r->id)
+            ->update([
+                'check' => $check,
+            ]);
+        }
+        return redirect()->back()->with('status', '登録しました');
 
 
     }
