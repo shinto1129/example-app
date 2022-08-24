@@ -9,7 +9,7 @@ class Register extends Model
 {
     use HasFactory;
 
-    public $timestanps = true;
+    // public $timestanps = true;
 
 
     /**

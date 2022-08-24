@@ -35,8 +35,29 @@ class UserSeeder extends Seeder
             'tel' => '08012348765',
         ]);
         \DB::table('users')->insert([
-            'name' => '信人',
+            'name' => 'テスト１',
             'email' => 'test3@test.com',
+            'password' => \Hash::make('hasiguti'),
+            'adress' => '愛知県半田市',
+            'tel' => '08012348765',
+        ]);
+        \DB::table('users')->insert([
+            'name' => 'テスト２',
+            'email' => 'test4@test.com',
+            'password' => \Hash::make('hasiguti'),
+            'adress' => '愛知県半田市',
+            'tel' => '08012348765',
+        ]);
+        \DB::table('users')->insert([
+            'name' => 'テスト３',
+            'email' => 'test5@test.com',
+            'password' => \Hash::make('hasiguti'),
+            'adress' => '愛知県半田市',
+            'tel' => '08012348765',
+        ]);
+        \DB::table('users')->insert([
+            'name' => 'テスト４',
+            'email' => 'test6@test.com',
             'password' => \Hash::make('hasiguti'),
             'adress' => '愛知県半田市',
             'tel' => '08012348765',

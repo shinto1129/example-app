@@ -51,6 +51,14 @@ $(function(){
         }
       })
 
+      $("#adminedit").click(function(){
+        if(!confirm("編集内容はお間違いないですか?")){
+            return false;
+        }else{
+            return true;
+        }
+      })
+
     $('#testModal1').on('show.bs.modal', function (event) {
         //モーダルを開いたボタンを取得
         var button = $(event.relatedTarget);
@@ -80,12 +88,20 @@ $(function(){
     $('#testModal3').on('show.bs.modal', function (event) {
         //モーダルを開いたボタンを取得
         var button = $(event.relatedTarget);
-        //data-periodの値取得
+        //道具の総数受け取り
+        var box = button.data('box');
+
+        //data値取得
         var periodVal = button.data('period');
         var weekVal = button.data('week');
 
+        for(let i = 0; i < box; i++){
+            var itemVali = button.data('item');
+        }
+
         //モーダルを取得
         var modal = $(this);
+
         console.log(periodVal);
         console.log(weekVal);
 

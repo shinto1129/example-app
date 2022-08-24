@@ -57,11 +57,14 @@ Route::namespace('\App\Http\Controllers')
     Route::get('/admin/data', 'HomeController@data')->name('data');
 
     //検索絞り込み
+    Route::post('/admin/serch', 'HomeController@serch')->name('serch');
+    Route::post('/admin/sort', 'HomeController@sort')->name('sort');
     Route::get('/admin/check', 'HomeController@check')->name('check');
 
     Route::get('/admin/delete/{id}', 'AdminController@delete')->name('delete');
 
     Route::post('/admin/edit', 'AdminController@edit')->name('edit');
+    Route::post('/admin/roomEdit', 'AdminController@roomEdit')->name('roomEdit');
 
 
  });

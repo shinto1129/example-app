@@ -14,22 +14,28 @@ class ItemSeeder extends Seeder
     public function run()
     {
         \DB::table('items')->insert([
-            'name' => '椅子'
+            'name' => '椅子',
+            'stock' => '7',
         ]);
         \DB::table('items')->insert([
-            'name' => '机'
+            'name' => '机',
+            'stock' => '1',
         ]);
         \DB::table('items')->insert([
-            'name' => 'マイク'
+            'name' => 'マイク',
+            'stock' => '3',
         ]);
         \DB::table('items')->insert([
-            'name' => 'プロジェクター'
+            'name' => 'プロジェクター',
+            'stock' => '1',
         ]);
         \DB::table('items')->insert([
-            'name' => 'ホワイトボード'
+            'name' => 'ホワイトボード',
+            'stock' => '2',
         ]);
         \DB::table('items')->insert([
-            'name' => 'スピーカー'
+            'name' => 'スピーカー',
+            'stock' => '1',
         ]);
     }
 }

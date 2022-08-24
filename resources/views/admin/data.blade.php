@@ -8,16 +8,30 @@
             {{ session('status') }}
         </div>
     @endif
-    @foreach ($data as $d)
-        @if($d->check == 1)
-            <div class="red">
-                <a href="/admin/check">
-                <h3>バッティングいている時間があります調整してください</h3>
-                </a>
-            </div>
-            @break
-        @endif
-    @endforeach
+    @if(!empty($flg))
+        <div class="red">
+            <a href="/admin/check">
+            <h3>バッティングいている時間があります調整してください</h3>
+            </a>
+            <p>↑クリックするとバッティングしているデータのみ表示されます</p>
+        </div>
+    @else
+    <h3>バッティングいている時間はありません</h3>
+    @endif
+    <div class="sortbox">
+        <h3>
+        <a id="select" type="button" data-toggle="modal" data-target="#serchModal">検索</a>
+        </h3>
+    </div>
+    <div class="sortbox">
+        <h3>
+            <a id="select" type="button" data-toggle="modal" data-target="#sortModal">並び替え</a>
+        </h3>
+        <p>↑クリックすると検索ウィンドウが表示されます</p>
+    </div>
+    @include('modal.sort')
+    @include('modal.serch')
+
     <h1>登録情報一覧</h1>
     <table class="table table-bordered">
         <thead>
@@ -76,125 +90,15 @@
                     </td>
                     <td>{{ $d->created_at }}</td>
                     <td>
-                        <a id="select"
-                        type="button"
-                        data-toggle="modal"
-                        data-target="#testModal3"
-                        data-period="{{ $d->period }}"
-                        data-week="{{ $d->week }}"
-                        @php
-                            $itembox = 0;
-                        @endphp
-                        @foreach ($items as $i)
-                            @php
-                                $itembox++;
-                            @endphp
-                            @if ($i->register_id == $d->id)
-                                data-item{{ $i->item_id }} = "{{ $i->item_id }}"
-                            @endif
-                        @endforeach
-                        data-box="{{ $itembox }}">
-                        編集</a>
+                        <a id="select" type="button" data-toggle="modal" data-target="#testModalx{{ $d->id }}">編集</a>
                     </td>
                     <td><a href="">削除</a></td>
                 </tr>
+                @include('modal.admin')
             @endforeach
         </tbody>
     </table>
     {{ $data->links() }}
-
-    <!-- ボタン・リンククリック後に表示される画面の内容 -->
-    <div class="modal fade" id="testModal3" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">編集画面</h4></h4>
-                </div>
-                <form method="post" action="/roomRegister">
-                    @csrf
-                    <div class="row mb-3">
-                        <label for="date" class="col-md-4 col-form-label text-md-end">{{ __('曜日') }}</label>
-
-                        <div class="col-md-6">
-                            <select id="week-select" class="form-control" name='week' readonly>
-                                <option value="1">月曜日</option>
-                                <option value="2">火曜日</option>
-                                <option value="3">水曜日</option>
-                                <option value="4">木曜日</option>
-                                <option value="5">金曜日</option>
-                                <option value="6">土曜日</option>
-                                <option value="7">日曜日</option>
-                            </select>
-                            @error('week')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="period" class="col-md-4 col-form-label text-md-end">{{ __('何限目') }}</label>
-
-                        <div class="col-md-6">
-                            <select id="period-select" class="form-control" name='period' readonly>
-                                <option value="1">１限目</option>
-                                <option value="2">２限目</option>
-                                <option value="3">３限目</option>
-                                <option value="4">４限目</option>
-                                <option value="5">５限目</option>
-                                <option value="6">６限目</option>
-                            </select>
-                            @error('period')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="room" class="col-md-4 col-form-label text-md-end">{{ __('教室') }}</label>
-
-                        <div class="col-md-6">
-                            <select id="room" class="form-control" name='room'>
-                                @foreach ($rooms as $room)
-                                <option value="{{ $room->id }}">{{ $room->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('room')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="item" class="col-md-4 col-form-label text-md-end">{{ __('必要なもの') }}</label>
-
-                        <div class="col-md-6">
-                            @foreach ($itemData as $item)
-                            <div>
-                                <label for="checkbox{{ $item->id }}">{{ $item->name }}</label>
-                                <input type="checkbox" id="checkbox{{ $item->id }}" name="item{{ $item->id }}" value="{{ $item->id }}" >
-                            </div>
-                            @endforeach
-                            @error('item')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('登録') }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 @endsection

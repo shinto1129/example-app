@@ -24,17 +24,19 @@ class RoomRegisterController extends Controller
         $user_id = \Auth::user()->id;
         $data = $request;
         $count = Item::get()->count();
-        $register = Register::get();
+        // $register = Register::get();
 
         $check = 0; //重複チェックフラグ
 
          //重複チェック
-        //  dd($register);
-         foreach($register as $r){
-            if($r->week == $data->week && $r->period == $data->period && $r->room == $data->room){
-                $check = 1;
-                break;
-            }
+        //  dd($data);
+        $flg = Register::where('week', $data->week)
+        ->where('period', $data->period)
+        ->where('room', $data->room)
+        ->first();
+        // dd($flg);
+        if(!empty($flg)){
+            $check = 1;
         }
         // dd($check);
         \DB::beginTransaction();
@@ -57,16 +59,19 @@ class RoomRegisterController extends Controller
                     ]);
                 }
             }
+            if(!empty($flg)){
+                if($flg->check === 0 && $check === 1){
+                    Register::where('id', $flg->id)
+                    ->update([
+                        'check' => '1',
+                    ]);
+                }
+            }
             \DB::commit();
         }
         catch(\Exception $e){
             \DB::rollback();
-        }
-        if($r->check === 0){
-            Register::where('id', $r->id)
-            ->update([
-                'check' => $check,
-            ]);
+            return redirect()->back()->with('status', '登録できませんでした');
         }
         return redirect()->back()->with('status', '登録しました');
 
